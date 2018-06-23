@@ -17,11 +17,11 @@ router.post("/register",function (req,res) {
 
     User.saveUser(newUser, function (err,user) {
         if(!err){
-            res.send(user);
+            res.json({state:true, msg:"data Inserted"});
         }
 
         else{
-            console.log('Error in User save :' + JSON.stringify(err, undefined, 2));
+            res.json({state:false, msg:"data Is Not Inserted"});
         }
     });
 });
@@ -31,37 +31,42 @@ router.post("/login", function (req, res) {
     const password = req.body.password;
 
     User.findByEmail(email, function (err, user) {
-        if(err){
-            throw err;
+        if(err) throw err;
+
+        if (!user){
+            res.json({state:false,msg:"No user found"});
         }
-        if(user){
+
+        if(user) {
             User.passwordCheck(password, user.password, function (err, match) {
-                if(err){
-                    console.log("No matching");
+                if (err) {
+                    res.json({state: false, msg: "your password is incorrect"});
                 }
 
-                if(match){
-                    const token = jwt.sign(user, config.secret,{expiresIn:86400*3});
+                if (match) {
+                    const token = jwt.sign(user, config.secret, {expiresIn: 86400 * 3});
                     res.json(
                         {
-                            state:true,
-                            token:"JWT " + token,
-                            user:{
-                                id:user._id,
-                                name:user.name,
-                                username:user.username,
-                                email:user.email
+                            state: true,
+                            token: "JWT " + token,
+                            user: {
+                                id: user._id,
+                                name: user.name,
+                                username: user.username,
+                                email: user.email
 
                             }
                         }
                     )
 
                 }
+
+                else {
+                    res.json({state: false, msg: "password does not match"});
+                }
             });
 
         }
-
-
 
     });
 });

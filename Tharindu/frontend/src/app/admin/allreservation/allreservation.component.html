@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Easy Lab Reservation</title>
+  <!-- Bootstrap core CSS-->
+
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <!-- Page level plugin CSS-->
+  <!--<link href="../../../assets/admin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+  <link href="../../../assets/admin/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="../../../assets/admin/css/sb-admin.css" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+  <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <a class="nav-link" routerLink="/admin">
+          <i class="fa fa-fw fa-dashboard"></i>
+          <span class="nav-link-text">Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reservations">
+        <a class="nav-link" routerLink="/allReservations">
+          <i class="fa fa-fw fa-ticket"></i>
+          <span class="nav-link-text">Reservations</span>
+        </a>
+      </li>
+      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reports">
+        <a class="nav-link" href="tables.html">
+          <i class="fa fa-fw fa-file"></i>
+          <span class="nav-link-text">Reports</span>
+        </a>
+      </li>
+      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+          <i class="fa fa-fw fa-wrench"></i>
+          <span class="nav-link-text">Notifications</span>
+        </a>
+      </li>
+
+    </ul>
+    <ul class="navbar-nav sidenav-toggler">
+      <li class="nav-item">
+        <a class="nav-link text-center" id="sidenavToggler">
+          <i class="fa fa-fw fa-angle-left"></i>
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-fw fa-envelope"></i>
+          <span class="d-lg-none">Messages
+              <span class="badge badge-pill badge-primary">12 New</span>
+            </span>
+          <span class="indicator text-primary d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+        </a>
+
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-fw fa-bell"></i>
+          <span class="d-lg-none">Alerts
+              <span class="badge badge-pill badge-warning">6 New</span>
+            </span>
+          <span class="indicator text-warning d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+        </a>      </li>
+      <li class="nav-item">
+        <form class="form-inline my-2 my-lg-0 mr-lg-2">
+          <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for...">
+            <span class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+          </div>
+        </form>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logoutUser()" >
+          <i class="fa fa-sign-out"></i>Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fa fa-table"></i> New Reservation</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead class=" text-primary">
+            <tr>
+              <th><strong>Date</strong></th>
+              <th><strong>From</strong></th>
+              <th><strong>To</strong></th>
+              <th><strong>Lab</strong></th>
+              <th ><strong>Name</strong></th>
+              <th><strong>Email</strong></th>
+              <th ><strong>Role</strong></th>
+              <th><strong>Year</strong></th>
+              <th><strong>Reason</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let reservation of reservationService.reservations">
+              <td>{{reservation.date}}</td>
+              <td>{{reservation.from}}</td>
+              <td>{{reservation.to}}</td>
+              <td>{{reservation.lab}}</td>
+              <td>{{reservation.name}}</td>
+              <td>{{reservation.email}}</td>
+              <td>{{reservation.role}}</td>
+              <td>{{reservation.year}}</td>
+              <td>{{reservation.reason}}</td>
+              <td><button class="btn btn-danger"  data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+              <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content panel-warning">
+                    <div class="modal-header panel-heading">
+                      <h5 class="modal-title" id="exampleModalLabel">Remove</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <strong><i class="fa fa-warning danger"></i></strong>
+                      <br>
+                      &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; Are You Sure that You want to delete This?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                      <form (submit)="remove( reservation._id )">
+                        <button type="submit" class="btn btn-success" >Remove</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid-->
+  <!-- /.content-wrapper-->
+  <footer class="sticky-footer">
+    <div class="container">
+      <div class="text-center">
+        <small>Copyright ©  2018 Developed by Tharindu Sandaruwan</small>
+      </div>
+    </div>
+  </footer>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fa fa-angle-up"></i>
+  </a>
+  <!-- Logout Modal-->
+  <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+  <!--<div class="modal-dialog" role="document">-->
+  <!--<div class="modal-content">-->
+  <!--<div class="modal-header">-->
+  <!--<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>-->
+  <!--<button class="close" type="button" data-dismiss="modal" aria-label="Close">-->
+  <!--<span aria-hidden="true">×</span>-->
+  <!--</button>-->
+  <!--</div>-->
+  <!--<div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>-->
+  <!--<div class="modal-footer">-->
+  <!--<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>-->
+  <!--<a class="btn btn-primary" (click)="logoutUser()">Logout</a>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!-- Bootstrap core JavaScript-->
+  <!--<script src="../../../assets/admin/vendor/jquery/jquery.min.js"></script>-->
+  <script src="../../../assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="../../../assets/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="../../../assets/admin/vendor/chart.js/Chart.min.js"></script>
+  <script src="../../../assets/admin/vendor/datatables/jquery.dataTables.js"></script>
+  <script src="../../../assets/admin/vendor/datatables/dataTables.bootstrap4.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="../../../assets/admin/js/sb-admin.min.js"></script>
+  <!-- Custom scripts for this page-->
+  <script src="../../../assets/admin/js/sb-admin-datatables.min.js"></script>
+  <script src="../../../assets/admin/js/sb-admin-charts.min.js"></script>
+</div>
+</body>
+
+</html>

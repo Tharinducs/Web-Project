@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
+    "dateonly": "^1.2.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^7.3.0",
     "mongoose": "^5.1.4",
